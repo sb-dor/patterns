@@ -1,3 +1,7 @@
+// simple explanation of observer pattern in order to figure it out how it works
+// but remember that change notifier was done better, with performance and working with memory
+// you can create your own notifier but remember that do not use your own notifiers for projects!
+
 import 'package:flutter/material.dart';
 
 typedef VoidCallback = void Function();
@@ -8,14 +12,21 @@ abstract interface class OwnListenable {
   void removeSubscriber(VoidCallback subscriber);
 }
 
+// mixin class so we can create object from this mixin
 mixin class SubscriberNotifier implements OwnListenable {
+  //
+  /// a list of callbacks that should be added as subscriber
+  /// when someone calls [notifySubscribers] all subscribers (callbacks) will be called
   final List<VoidCallback> _subscribers = [];
 
+  // adding subscriber (callback) inside a list of subscribers
   @override
   void addSubscriber(VoidCallback subscriber) {
     _subscribers.add(subscriber);
   }
 
+  /// removing specific subscriber (callback) from the list in order to not call him
+  /// when [notifySubscribers] calls
   @override
   void removeSubscriber(VoidCallback subscriber) {
     for (int index = 0; index < _subscribers.length; index++) {
@@ -25,10 +36,16 @@ mixin class SubscriberNotifier implements OwnListenable {
     }
   }
 
+  // calling each subscriber (callback)
   void notifySubscribers() {
     for (final subscriber in _subscribers) {
       subscriber.call();
     }
+  }
+
+  // clearing callbacks
+  void dispose() {
+    _subscribers.clear();
   }
 }
 
