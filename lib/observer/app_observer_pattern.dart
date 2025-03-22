@@ -22,7 +22,7 @@ class AppObserverPattern extends StatelessWidget {
 }
 
 class _HomeWidget extends StatefulWidget {
-  const _HomeWidget({super.key});
+  const _HomeWidget();
 
   @override
   State<_HomeWidget> createState() => _HomeWidgetState();
